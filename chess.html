@@ -178,8 +178,10 @@
             if (Active && Math.floor(event.clientX / 80) * 80 == parseInt(startX.slice(0, -2)) && Math.floor(event.clientY / 80) * 80 == parseInt(startY.slice(0, -2))) 
                 return;
                        
-                    else {
-                        if (CheckAccess(Math.floor(event.clientX / 80) * 80, Math.floor(event.clientY / 80) * 80)) {
+            else {
+              
+                if (CheckAccess(Math.floor(event.clientX / 80) * 80, Math.floor(event.clientY / 80) * 80)) {
+                    CheckSwap();
                             Active.style.left = Math.floor(event.clientX / 80) * 80 + 'px';
                             Active.style.top = Math.floor(event.clientY / 80) * 80 + 'px';
                             if (Active.dataset.color == 'white')
@@ -215,6 +217,21 @@
                       
                         Active = null;
                     }
+        }
+        function CheckSwap() {
+            console.log(Math.floor(event.clientY / 80) * 80);
+            if ((Active.dataset.type == 'blackPawn' && Math.floor(event.clientY / 80) * 80 == 560) ||
+                (Active.dataset.type == 'whitePawn' && Math.floor(event.clientY / 80) * 80 == 0)) {
+                if (Active.dataset.type == 'blackPawn') {
+                    Active.innerHTML = ` <img src = "blackQueen.png">`;
+                }
+                if (Active.dataset.type == 'whitePawn') {
+                    Active.innerHTML = ` <img src = "whiteQueen.png">`;
+                }
+                Active.dataset.type = 'queen';
+              
+
+            }
         }
         function CheckKing(X, Y){
             let divs = document.getElementsByClassName('figure');
@@ -260,7 +277,7 @@
 
             for (let i = 0; i < figures.length; i++)
             {
-                console.log(type, figures[i].style.top, Y + 80 + 'px');
+               
                 if ( type == 'whitePawn' && figures[i].style.left == X + 'px' && figures[i].style.top == Y + 80 + 'px' && figures[i].dataset.type == 'blackPawn' && figures[i].style.top == '240px' 
                     )
                     document.body.removeChild(figures[i]);
@@ -351,7 +368,7 @@
                 let X = parseInt(Active.style.left.slice(0, -2));
              
                 if ((Y == 0 && X == 320) || (Y == 560 && X == 320)) {
-                    console.log(X, Y);
+                   
                     let summoner = makePattern(kingPatternSwitch, 10);
                     summoner();
                 }
